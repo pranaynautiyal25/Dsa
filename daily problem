@@ -46,3 +46,49 @@ public:
         return out++;
     }
 };
+
+
+//1466
+
+class Solution {
+public:
+void dfs(unordered_map<int,unordered_map<int,int>> &real,unordered_map<int,vector<int>> &all,vector<int> &v,int s,int &c){
+
+    if(v[s]==1){
+        return;
+    }
+    //cout<<s<<"-";
+    v[s]=1;
+
+    vector<int> p=all[s];
+
+    for(int i=0;i<p.size();i++){
+        if(v[p[i]]==1){
+            continue;
+        }
+        if(real[s][p[i]]==1){
+            c++;
+            cout<<0;
+        }
+        //cout<<p[i]<<" ";
+        dfs(real,all,v,p[i],c);
+    }
+    cout<<endl;
+}
+    int minReorder(int n, vector<vector<int>>& connections) {
+        unordered_map<int,vector<int>> all;
+
+        unordered_map<int,unordered_map<int,int>> real;
+        for(int i=0;i<connections.size();i++){
+            real[connections[i][0]][connections[i][1]]=1;
+            all[connections[i][1]].push_back(connections[i][0]);
+            all[connections[i][0]].push_back(connections[i][1]);
+        }
+
+        vector<int> v(n,0);
+        int out=0;
+        dfs(real,all,v,0,out);
+
+        return out;
+    }
+};
