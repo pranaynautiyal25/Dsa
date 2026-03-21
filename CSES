@@ -1,1 +1,53 @@
+graphs 
+
+Q1)
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(vector<vector<char>> &v,int i,int j,vector<int> &row,vector<int>& col,vector<vector<int>>&visited){
+    
+    visited[i][j]=1;
+    
+    for(int p=0;p<4;p++){
+        int adji=i+row[p];
+        int adjj=j+col[p];
+        
+        if(adji>=0&&adjj>=0&&adji<v.size()&&adjj<v[0].size()&&v[adji][adjj]=='.'&&visited[adji][adjj]==0){
+            dfs(v,adji,adjj,row,col,visited);
+        }
+    }
+}
+
+int main() {
+	// your code goes here
+	int n,m;
+	cin>>n>>m;
+	
+	vector<vector<char>> v(n,vector<char>(m,'.'));
+	for(int i=0;i<n;i++){
+	    for(int j=0;j<m;j++){
+	        char x;
+	        cin>>x;
+	        v[i][j]=x;
+	    }
+	}
+	
+	vector<int> row={0,0,1,-1};
+	vector<int> col={1,-1,0,0};
+	
+	int out=0;
+	
+	vector<vector<int>> visited(n,vector<int>(m,0));
+	
+	for(int i=0;i<n;i++){
+	    for(int j=0;j<m;j++){
+	        if(v[i][j]=='.'&&visited[i][j]==0){
+	            dfs(v,i,j,row,col,visited);
+	            out++;
+	        }
+	    }
+	}
+	
+	cout<<out<<endl;
+}
 
