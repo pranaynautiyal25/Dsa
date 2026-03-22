@@ -51,3 +51,103 @@ int main() {
 	cout<<out<<endl;
 }
 
+
+q2(atttempting 1, case tle)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+string bfs(vector<vector<char>> &v ,int x,int y,int &mini,vector<int> &row,vector<int> &col,vector<char> &d,string &dir){
+    
+    vector<vector<int>> visited(v.size(),vector<int>(v[0].size(),0));
+    
+    queue<pair<vector<int>,string>> q;
+    q.push({{x,y},""});
+    q.push({{-1,-1},""});
+    visited[x][y]=1;
+    
+    
+    while(!q.empty()){
+        auto cur=q.front();
+        q.pop();
+        
+        
+        vector<int> cor=cur.first;
+            string curdir=cur.second;
+        if(cor[0]==-1){
+            mini++;
+            if(q.empty()){
+                break;
+            }
+            q.push({{-1,-1},""});
+        }
+        
+        else{
+            
+            
+        
+            
+            if(v[cor[0]][cor[1]]=='B'){
+                dir=curdir;
+                return "YES";
+            }
+            
+            for(int i=0;i<4;i++){
+                int adjx=cor[0]+row[i];
+                int adjy=cor[1]+col[i];
+                
+                if(adjx>=0&&adjy>=0&&adjx<v.size()&&adjy<v[0].size()&&v[adjx][adjy]!='#'&&visited[adjx][adjy]==0){
+                    visited[adjx][adjy]=1;
+                    q.push({{adjx,adjy},curdir+d[i]});
+                }
+            }
+        }
+        
+    }
+    return "NO";
+    
+}
+
+int main() {
+	// your code goes here
+	
+	int n,m;
+	cin>>n>>m;
+	
+	int start_x,start_y;
+	
+	vector<vector<char>> v(n,vector<char>(m,'#'));
+	
+	for(int i=0;i<n;i++){
+	    for(int j=0;j<m;j++){
+	        char a;
+	        cin>>a;
+	        
+	        if(a=='A'){
+	            start_x=i;
+	            start_y=j;
+	        }
+	        
+	        
+	       v[i][j]=a;
+	    }
+	}
+	
+	
+	
+	string dir;
+	int mini=0;
+	
+	vector<int> row={0,0,1,-1};
+	vector<int> col={1,-1,0,0};
+	vector<char> d={'R','L','D','U'};
+	
+	string out=bfs(v,start_x,start_y,mini,row,col,d,dir);
+	
+	cout<<out<<endl;
+	if(out=="YES"){
+	    cout<<mini<<endl;
+	    cout<<dir<<endl;
+	}
+}
