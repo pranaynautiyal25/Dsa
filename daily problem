@@ -92,3 +92,36 @@ void dfs(unordered_map<int,unordered_map<int,int>> &real,unordered_map<int,vecto
         return out;
     }
 };
+
+//3653
+class Solution {
+public:
+    int xorAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        
+        int out;
+        long long m=1e9+7;
+
+        for(int i=0;i<queries.size();i++){
+            int idx=queries[i][0];
+            int r=queries[i][1];
+            long long v=queries[i][3];
+            int k=queries[i][2];
+
+            while(idx<=r){
+                long long p=nums[idx];
+                long long w=p*v;
+                w=w%m;
+                //cout<<w<<" ";
+                nums[idx]=w;                
+                idx+=k;
+            }
+        }
+        out= nums[0];
+        for(int i=1;i<nums.size();i++){
+            //cout<<nums[i]<<" ";
+            out^=nums[i];
+        }
+
+        return out;
+    }
+};
