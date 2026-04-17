@@ -148,3 +148,97 @@ if(out==INT_MAX){
         return out;
     }
 };
+
+//3761
+class Solution {
+public:
+    int minMirrorPairDistance(vector<int>& nums) {
+        
+        vector <string> s;
+        for(int i=0;i<nums.size();i++){
+            int a=nums[i];
+            string lol="";
+            while(a>0){
+                int l=a%10;
+                char x='0'+l;
+                lol=x+lol;
+                a/=10;
+            }
+            // string k="";
+
+            // int j=lol.size()-1;
+            // while(j>=0&&lol[j]=='0'){
+            //     j--;
+            // }
+
+            // while(j>=0){
+            //     k=lol[j]+k;
+            //     j--;
+            // }
+           // cout<<lol<<" ";
+            s.push_back(lol);
+        }
+
+        int out=INT_MAX;
+
+        unordered_map<string,vector<int>> u;
+        for(int i=0;i<s.size();i++){
+            u[s[i]].push_back(i);
+        }
+
+        for(int i=0;i<s.size();i++){
+            string a=s[i];
+            reverse(a.begin(),a.end());
+            int j=0;
+            while(j<a.size()&&a[j]=='0'){
+                j++;
+            }
+            string b="";
+            while(j<a.size()){
+                b=b+a[j];
+                j++;
+            }
+            //cout<<b<<" ";
+            vector<int> &v=u[b];
+
+            
+            if(v.size()==0){
+                continue;
+            }
+
+            int l=0;
+            int r=v.size()-1;
+            
+
+            while(l<=r){
+                int m=l+(r-l)/2;
+                if(v[m]>i){
+                    r=m-1;
+                }
+                else{
+                    l=m+1;
+                }
+                // cout<<v[m]<<" ";
+                
+            }
+
+            if(l<v.size()&&v[l]>i){
+                // cout<<endl<<v[l]<<" "<<i<<endl;
+                out=min(out,abs(v[l]-i));
+            }
+
+            
+            
+
+             
+            
+        }
+        
+        if(out==INT_MAX){
+            return -1;
+        }
+
+        return out;
+
+    }
+};
